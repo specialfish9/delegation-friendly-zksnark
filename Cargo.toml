@@ -1,0 +1,79 @@
+[package]
+name = "dfs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ark-ff = {version = "0.4.0", features = ["parallel"]}
+ark-linear-sumcheck = {version = "0.3.0", features = ["parallel"]} #pretty sure it's updated for 0.4.0
+ark-poly = {version = "0.4.0", features = ["parallel"]}
+ark-poly-commit = {version = "0.4.0", features = ["parallel"]}
+#ark-poly-commit = {version = "0.4.0", features = ["print-trace", "parallel"]}
+ark-serialize = "0.4.0"
+ark-ec = {version = "0.4.0", features = ["parallel"]}
+merlin = "3.0.0"
+rand = "0.8.5"
+blake2 = "0.9"
+#ark-std = {version = "0.4.0", features = ["print-trace", "parallel"]}
+ark-std = {version = "0.4.0", features = ["parallel"]}
+rayon = { version = "1", optional = true }
+ark-crypto-primitives = {version = "^0.4.0", default-features = false, features = ["sponge"] }
+mpi = { version = "0.7.0", features = ["user-operations", "derive"] }
+clap = { version = "4.4.13", features = ["derive"] }
+mimalloc = { version = "*", default-features = false }
+crossbeam = "0.8.3"
+itertools = "0.12.0"
+
+
+[dev-dependencies]
+ark-bls12-381 = {version = "^0.4.0", default-features = false, features = ["curve"]}
+rand_chacha = { version = "0.3.0", default-features = false }
+blake2 = { version = "0.9", default-features = false }
+ark-mnt4-298 = { version = "^0.4.0", default-features = false, features = ["r1cs", "curve"] }
+ark-mnt6-298 = { version = "^0.4.0", default-features = false, features = ["r1cs"] }
+ark-mnt4-753 = { version = "^0.4.0", default-features = false, features = ["r1cs", "curve"] }
+ark-mnt6-753 = { version = "^0.4.0", default-features = false, features = ["r1cs"] }
+#criterion = {version = "0.3.4", features = ["html_reports"]}
+#ark-test-curves = {version = "^0.4.0", features = ["bls12_381_curve", "ed_on_bls12_381"]}
+
+
+[patch.crates-io]
+ark-linear-sumcheck = {git = "https://github.com/huyuncong/sumcheck"}
+ark-test-curves = {git = "https://github.com/arkworks-rs/algebra"}
+ark-poly-commit = {git = "https://github.com/xjjj2/poly-commit"}
+
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+incremental = true
+debug = true
+panic = 'abort'
+
+[profile.test]
+opt-level = 3
+debug-assertions = true
+incremental = true
+debug = true
+
+[profile.dev]
+opt-level = 0
+panic = 'abort'
+
+[features]
+default = ["std", "parallel"]
+std = [ "ark-ff/std", "ark-poly/std", "ark-std/std", "ark-serialize/std", "ark-poly-commit/std" ]
+#print-trace = [ "ark-std/print-trace" ]
+parallel = [ "std", "ark-ff/parallel", "ark-ec/parallel", "ark-poly/parallel", "ark-std/parallel", "ark-poly-commit/parallel", "rayon" ]
+
+[[bench]]
+name = "dfs-benches"
+path = "benches/bench.rs"
+harness = false
+required-features = ["std"]
+
+
+
+

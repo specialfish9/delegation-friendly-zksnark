@@ -1,0 +1,1 @@
+mpirun -np 7 ../../target/release/examples/rss_snark work  --log-instance-size 12 --log-num-workers-per-party 1 --log-num-public-workers 2 --key-file inst_folder/inst_12_1_2/test --worker-id 0 --local 1
