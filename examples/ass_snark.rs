@@ -319,6 +319,7 @@ fn setup<E: Pairing>(
             pk.serialize_uncompressed(&mut buf).unwrap();
             let mut file_name = key_out_path.clone();
             file_name.set_extension("root");
+            println!("Creating file {}", file_name);
             let mut f =
                 File::create(&file_name).expect(&format!("could not create file {:?}", file_name));
             f.write_all(&buf).unwrap();
